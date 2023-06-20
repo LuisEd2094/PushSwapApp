@@ -112,7 +112,7 @@ def receive_json():
         message = data.get('numbers2')
         
         result = main(message)
-        print(result)
+        print(len(result))
        # return jsonify({'success': True, 'result': result})
     except:
         return 
