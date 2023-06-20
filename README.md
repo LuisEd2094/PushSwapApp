@@ -22,3 +22,7 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+This is a visualization of 42's proyect PushSwap. It'd take an unordered list of numbers and run my algorithm to find the smallest number of steps to order them using a limited number of options.
+
+It returns a list of movements to make and will then start the animation.

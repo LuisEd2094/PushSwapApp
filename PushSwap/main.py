@@ -1,5 +1,10 @@
-import size3, size5, morethan_5, sys, for100, random
+import size3, size5, morethan_5, sys, for100, random 
+from flask import Flask, request, jsonify
+import json
 
+
+app = Flask(__name__)
+@app.route('/receive-json', methods=['POST'])
 
 def get_indexed_a(stack_a):
         
@@ -66,12 +71,10 @@ def randomGen(n):
     newList = random.sample(range(n), n)
     
     return newList
-        
-    
-                    
-
-
-def main():
+         
+def main(numbers):
+    print (numbers)
+    return (numbers)
     values= []
     maxScore = 0
     maxList = list()
@@ -189,7 +192,7 @@ def main():
                 continue
             stack_a = get_stack_a(argument)
             copy_a = stack_a.copy()
-            sorted_a = sorted(stack_a)
+
             movements = list()
             if len(stack_a) == 3:
                 stack_a = size3.solve_for_3(stack_a, movements)
@@ -218,22 +221,25 @@ def main():
                             minMovements = movements.copy()
             else:
                 stack_a = morethan_5.more_than5(stack_a, movements)
-            #if (sorted_a == stack_a):
-             #   print (f"Is sorted with {len(minMovements)}")
-            #else:
-             #   print ("nOt sorted")
-            #values.append(len(minMovements))
-            
-       # avr = sum(values) / len(values)
-       # print ('average  ' + str(avr))
-        #print ("max " + str(max(values)))
-        #print ("min " + str(min(values)))
         print(stack_a)
         print(len(minMovements))
+        return(movements)
 
 
-
+def receive_json():
+    try:
+        with open('input.json') as f:
+            data = json.load(f)
+        
+        message = data.get('numbers')
+        
+        result = main(message)
+        print(result)
+       # return jsonify({'success': True, 'result': result})
+    except:
+        return 
+        #return jsonify({'success': False, 'error': 'Invalid JSON data'})
     
 
 if __name__ == "__main__":
-    main()
+    receive_json()
