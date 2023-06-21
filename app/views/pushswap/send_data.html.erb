@@ -1,0 +1,4 @@
+<%= form_tag({action: 'send_data'}, method: 'post') do %>
+    <%= text_area_tag :input, ''%>
+    <%=submit_tag 'Get moves'%>
+<% end %>
