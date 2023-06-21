@@ -59,7 +59,6 @@ def solve_3_with_2(stack_a, stack_b, movements):
 
 def solve_for_5(stack, movements):
     if aux.is_not_ordered(stack):
-        max_value = len(stack)
         stack_b = prepare_b(stack, movements)
         solve_3_with_2(stack, stack_b, movements)
 
