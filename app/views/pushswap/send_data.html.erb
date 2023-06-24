@@ -6,9 +6,12 @@
   <% end %>
 </div>
 
-<%= form_tag({action: 'send_data'}, method: 'post', id: 'number-form', data: { turbo: false }) do %>
+<%= form_tag({action: 'send_data'}, method: 'post', remote: true,  id: 'number-form', data: { turbo: false }) do %>
     <%= text_area_tag :input, '', id:'numbers-input' %>
     <%= submit_tag 'Get moves'%>
 <% end %>
 
+<div id="barsContainer"></div>
+
 <%= javascript_include_tag 'validation','data-turbolinks-eval': 'false' %>
+<%= javascript_include_tag 'barsAnimation','data-turbolinks-eval': 'false' %>

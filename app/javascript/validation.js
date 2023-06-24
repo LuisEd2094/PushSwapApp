@@ -33,14 +33,30 @@ document.addEventListener('turbo:load', function() {
                   errorMessageContainer.classList.add('error-message');
                   numbersInput.parentElement.appendChild(errorMessageContainer);
                 }
-              
                 errorMessageContainer.innerText = errorMessages.join('\n');
-              } else {
+            }
+            else {
                 if (errorMessageContainer) {
-                  errorMessageContainer.remove();
-                  numberForm.submit();
+                    errorMessageContainer.remove();
                 }
-              }
+                barsAnimation(numbersArray);
+                const formData = new FormData(numberForm);
+                fetch(numberForm.action, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                if (response.ok) {
+                    console.log('Form submitted successfully!');
+                } 
+                else {
+                    console.error('Error submitting the form!');
+                }
+                })
+                .catch(error => {
+                    console.error('An error occurred during form submission:', error);
+                });
+            }
         });
     }
 })
