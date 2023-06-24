@@ -2,7 +2,7 @@ document.addEventListener('turbo:load', function() {
     const numberForm = document.getElementById('number-form');
 
     if (numberForm) {
-        numberForm.addEventListener('turbo:submit-start', function(event) {
+        numberForm.addEventListener('submit', function(event) {
             event.preventDefault();
             const numbersInput = document.getElementById('numbers-input');
             const numbers = numbersInput.value.trim();
@@ -28,10 +28,10 @@ document.addEventListener('turbo:load', function() {
                 errorMessageContainer.classList.add('error-message');
                 errorMessageContainer.innerText = errorMessages.join('\n');
                 numbersInput.parentElement.appendChild(errorMessageContainer);
-                event.preventDefault(); // Prevent form submission
-
             }
- 
+            else{
+                numberForm.submit();
+            }
         });
     }
 })

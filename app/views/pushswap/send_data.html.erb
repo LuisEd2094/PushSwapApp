@@ -6,9 +6,9 @@
   <% end %>
 </div>
 
-<%= form_tag({action: 'send_data'}, method: 'post', id: 'number-form') do %>
+<%= form_tag({action: 'send_data'}, method: 'post', id: 'number-form', data: { turbo: false }) do %>
     <%= text_area_tag :input, '', id:'numbers-input' %>
-    <%=submit_tag 'Get moves'%>
+    <%= submit_tag 'Get moves'%>
 <% end %>
 
 <%= javascript_include_tag 'validation','data-turbolinks-eval': 'false' %>
