@@ -1,4 +1,6 @@
-<%= form_tag({action: 'send_data'}, method: 'post') do %>
-    <%= text_area_tag :input, ''%>
+<%= form_tag({action: 'send_data'}, method: 'post', id: 'number-form') do %>
+    <%= text_area_tag :input, '', id:'numbers-input' %>
     <%=submit_tag 'Get moves'%>
 <% end %>
+
+<%= javascript_include_tag 'validation' %>
