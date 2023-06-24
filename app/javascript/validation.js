@@ -1,17 +1,14 @@
-document.getElementById('number-form').addEventListener('submit', function(event){
-    event.preventDefault();
-
+document.getElementById('number-form').addEventListener('submit', function(event) {
     const numbersInput = document.getElementById('numbers-input');
-    const numbers = numbersInput.ariaValueMax.trim();
-    const numbersArray = numbers.split(',');
+    const numbers = numbersInput.value.trim();
+    const numbersArray = numbers.split(/[,\s]+/);
 
     var isValid = true;
     var errorMessages = [];
     
     numbersArray.forEach(function(number) {
         var parsedNumber = parseInt(number, 10);
-
-        if (isNaN(parsedNumber) || number.trim() === ''){
+        if (isNaN(parsedNumber) || number.trim() === '' || !/^[-+]?\d+$/.test(number)){
             errorMessages.push('Invalid Number ' + number);
             isValid = false;
         }
@@ -20,14 +17,11 @@ document.getElementById('number-form').addEventListener('submit', function(event
             isValid = false
         }
     });
-
     if (!isValid){
         var errorMessageContainer = document.createElement('div');
         errorMessageContainer.classList.add('error-message');
         errorMessageContainer.innerText = errorMessages.join('\n');
         numbersInput.parentElement.appendChild(errorMessageContainer);
-    }
-    else {
-        document.getElementById('number-form').submit();
+        return false;
     }
 })

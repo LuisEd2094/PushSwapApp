@@ -1,3 +1,11 @@
+<div class="flash-messages">
+  <% if flash[:error].present? %>
+    <div class="error">
+      <%= flash[:error] %>
+    </div>
+  <% end %>
+</div>
+
 <%= form_tag({action: 'send_data'}, method: 'post', id: 'number-form') do %>
     <%= text_area_tag :input, '', id:'numbers-input' %>
     <%=submit_tag 'Get moves'%>
