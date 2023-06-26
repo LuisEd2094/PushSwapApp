@@ -25,7 +25,6 @@ async function makeMoves(moves){
 
         await new Promise(resolve => setTimeout(resolve, 100));
 
-        console.log("making animation")
         bar1.style.transition = 'transform 0.1s ease-in-out';
         bar2.style.transition = 'transform 0.1s ease-in-out';
         bar1.style.transform = 'translateY(100%)';
@@ -42,11 +41,8 @@ async function makeMoves(moves){
         bar2.style.transition = '';
         bar1.style.transform = '';
         bar2.style.transform = '';
-      console.log("moved DOM")
-    }
+      }
     else if (move == 'rra'){
-      
-      console.log("doing rra") 
       var bar1 = document.querySelector('.bar-left-container:last-child');
       var bar2 = document.querySelector('.bar-left-container:first-child');
       const transitionElements = document.querySelectorAll('.bar-left-container:not(:first-child):not(:last-child)');
@@ -55,15 +51,14 @@ async function makeMoves(moves){
       bar1.style.transition = 'transform 0.1s ease-in-out';
       bar2.style.transition = 'transform 0.1s ease-in-out';
       bar1.style.transform = 'translateY(-200%)';
-      bar2.style.transform = 'translateY(100%)';
 
+      
+      bar2.style.transform = 'translateY(100%)';
       transitionElements.forEach(element => {
         element.style.transition = 'transform 0.1s ease-in-out';
         element.style.transform = 'translateY(100%)'
       });
-
       await new Promise(resolve => setTimeout(resolve, 100));
-
       const parent = bar1.parentNode;
       parent.insertBefore(bar1, bar2);
       parent.insertBefore(bar2, bar1.nextSibling);
@@ -84,6 +79,8 @@ async function makeMoves(moves){
 
 function firstDraw(relativeValues){
   var barsContainer = document.querySelector('.bars-container');
+  var leftDiv = document.createElement('div');
+  var rightDiv = document.createElement('div');
 
   if(!barsContainer){
     barsContainer = document.createElement('div');
@@ -95,28 +92,24 @@ function firstDraw(relativeValues){
     console.log("restting")
     barsContainer.innerHTML = '';
   }
-  var leftDiv = document.createElement('div');
+
   leftDiv.style.width = '50%';
   leftDiv.style.height = '100%';
-
-  var rightDiv = document.createElement('div');
   rightDiv.style.width = '50%';
   rightDiv.style.height = '100%';
 
   barsContainer.appendChild(leftDiv);
   barsContainer.appendChild(rightDiv);
-  
+
+
   relativeValues.forEach(function(value) {
     var bar = document.createElement('div');
     bar.className = 'bar-left-container';
-    var barHeightPercentage = (1 / relativeValues.length) * 100; // Calculate the height percentage based on the number of bars
+    var barHeightPercentage = (1 / relativeValues.length) * 100; 
     bar.style.height = barHeightPercentage + '%';
     var widthPercentage = (value / relativeValues.length) * 100;
-
-    // Set the bar's width
     bar.style.width = widthPercentage + '%';
-    var hue = Math.floor(((relativeValues.length - value) / (relativeValues.length - 1)) * 120); // Ranges from 0 to 120 (red to green)
-    // Set the bar's background color using HSL format
+    var hue = Math.floor(((relativeValues.length - value) / (relativeValues.length - 1)) * 120); 
     bar.style.backgroundColor = 'hsl(' + hue + ', 100%, 50%)';
     leftDiv.appendChild(bar);
   });
