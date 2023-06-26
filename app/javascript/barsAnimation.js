@@ -18,20 +18,25 @@ async function makeMoves(moves){
   //const bars = document.querySelectorAll('.bar');
   for (let i = 0; i < moves.length; i++){
     const move = moves[i];
-    console.log(move)
+
+    const transforTime = 0.1;
+    const transitionString = 'transform ' + transforTime + 's ease-in-out'
+    const promiseWait = transforTime * 1000;
+
+    console.log(move);
     if (move == 'sa'){
         var bar1 = document.querySelector('.bar-left-container:first-child');
         var bar2 = document.querySelector('.bar-left-container:nth-child(2)');
 
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise(resolve => setTimeout(resolve, promiseWait));
 
-        bar1.style.transition = 'transform 0.1s ease-in-out';
-        bar2.style.transition = 'transform 0.1s ease-in-out';
+        bar1.style.transition = transitionString;
+        bar2.style.transition = transitionString;
         bar1.style.transform = 'translateY(100%)';
         bar2.style.transform = 'translateY(-100%)';
         console.log("wating to move dom")
 
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise(resolve => setTimeout(resolve, promiseWait));
 
 
         const parent = bar1.parentNode;
@@ -42,23 +47,26 @@ async function makeMoves(moves){
         bar1.style.transform = '';
         bar2.style.transform = '';
       }
+
+
     else if (move == 'rra'){
       var bar1 = document.querySelector('.bar-left-container:last-child');
       var bar2 = document.querySelector('.bar-left-container:first-child');
       const transitionElements = document.querySelectorAll('.bar-left-container:not(:first-child):not(:last-child)');
 
-      await new Promise(resolve => setTimeout(resolve, 100));
-      bar1.style.transition = 'transform 0.1s ease-in-out';
-      bar2.style.transition = 'transform 0.1s ease-in-out';
-      bar1.style.transform = 'translateY(-200%)';
+      await new Promise(resolve => setTimeout(resolve, promiseWait));
+      bar1.style.transition = transitionString
+      bar2.style.transition = transitionString
 
       
+      bar1.style.transform = 'translateY(-200%)';
+
       bar2.style.transform = 'translateY(100%)';
       transitionElements.forEach(element => {
-        element.style.transition = 'transform 0.1s ease-in-out';
+        element.style.transition = transitionString
         element.style.transform = 'translateY(100%)'
       });
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise(resolve => setTimeout(resolve, promiseWait));
       const parent = bar1.parentNode;
       parent.insertBefore(bar1, bar2);
       parent.insertBefore(bar2, bar1.nextSibling);
@@ -72,7 +80,7 @@ async function makeMoves(moves){
         element.style.transform = ''
       });
     }
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise(resolve => setTimeout(resolve, promiseWait  ));
   }
 
 }
