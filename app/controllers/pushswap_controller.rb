@@ -23,6 +23,7 @@ class PushswapController < ApplicationController
             
             if response.is_a?(Net::HTTPSuccess)
                 data = JSON.parse(response.body)
+                puts data
                 render json: {success: true, data: data}
                 
                  # Print the response data to console

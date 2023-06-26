@@ -14,32 +14,71 @@ function barsAnimation(numbers, moves){
 }
 
 
-function makeMoves(moves){
+async function makeMoves(moves){
   //const bars = document.querySelectorAll('.bar');
   for (let i = 0; i < moves.length; i++){
     const move = moves[i];
-    var bar1 = document.querySelector('.bar:first-child');
-    var bar2 = document.querySelector('.bar:nth-child(2)');
+    console.log(move)
     if (move == 'sa'){
-      setTimeout(() => {
-        bar1.style.transition = 'transform 0.5s ease-in-out';
-        bar2.style.transition = 'transform 0.5s ease-in-out';
+        var bar1 = document.querySelector('.bar-left-container:first-child');
+        var bar2 = document.querySelector('.bar-left-container:nth-child(2)');
+
+        await new Promise(resolve => setTimeout(resolve, 100));
+
+        console.log("making animation")
+        bar1.style.transition = 'transform 0.1s ease-in-out';
+        bar2.style.transition = 'transform 0.1s ease-in-out';
         bar1.style.transform = 'translateY(100%)';
         bar2.style.transform = 'translateY(-100%)';
-      }, 100);
-      setTimeout(() =>{
+        console.log("wating to move dom")
+
+        await new Promise(resolve => setTimeout(resolve, 100));
+
+
+        const parent = bar1.parentNode;
+        parent.insertBefore(bar2, bar1);
+        parent.insertBefore(bar1, bar2.nextSibling);
+        bar1.style.transition = '';
+        bar2.style.transition = '';
+        bar1.style.transform = '';
+        bar2.style.transform = '';
+      console.log("moved DOM")
+    }
+    else if (move == 'rra'){
+      
+      console.log("doing rra") 
+      var bar1 = document.querySelector('.bar-left-container:last-child');
+      var bar2 = document.querySelector('.bar-left-container:first-child');
+      const transitionElements = document.querySelectorAll('.bar-left-container:not(:first-child):not(:last-child)');
+
+      await new Promise(resolve => setTimeout(resolve, 100));
+      bar1.style.transition = 'transform 0.1s ease-in-out';
+      bar2.style.transition = 'transform 0.1s ease-in-out';
+      bar1.style.transform = 'translateY(-200%)';
+      bar2.style.transform = 'translateY(100%)';
+
+      transitionElements.forEach(element => {
+        element.style.transition = 'transform 0.1s ease-in-out';
+        element.style.transform = 'translateY(100%)'
+      });
+
+      await new Promise(resolve => setTimeout(resolve, 100));
+
       const parent = bar1.parentNode;
-      parent.insertBefore(bar2, bar1);
-      parent.insertBefore(bar1, bar2.nextSibling);
+      parent.insertBefore(bar1, bar2);
+      parent.insertBefore(bar2, bar1.nextSibling);
       bar1.style.transition = '';
       bar2.style.transition = '';
-      bar1.style.transform = 'none';
-      bar2.style.transform = 'none';
-    }, 600)
-    }
-    
-  }
+      bar1.style.transform = '';
+      bar2.style.transform = '';
 
+      transitionElements.forEach(element => {
+        element.style.transition = '';
+        element.style.transform = ''
+      });
+    }
+    await new Promise(resolve => setTimeout(resolve, 100));
+  }
 
 }
 
@@ -53,6 +92,7 @@ function firstDraw(relativeValues){
     document.body.appendChild(barsContainer)
   }
   else{
+    console.log("restting")
     barsContainer.innerHTML = '';
   }
   var leftDiv = document.createElement('div');
@@ -68,7 +108,7 @@ function firstDraw(relativeValues){
   
   relativeValues.forEach(function(value) {
     var bar = document.createElement('div');
-    bar.className = 'bar';
+    bar.className = 'bar-left-container';
     var barHeightPercentage = (1 / relativeValues.length) * 100; // Calculate the height percentage based on the number of bars
     bar.style.height = barHeightPercentage + '%';
     var widthPercentage = (value / relativeValues.length) * 100;
