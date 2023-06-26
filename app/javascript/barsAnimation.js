@@ -18,26 +18,24 @@ function makeMoves(moves){
   //const bars = document.querySelectorAll('.bar');
   for (let i = 0; i < moves.length; i++){
     const move = moves[i];
-
+    var bar1 = document.querySelector('.bar:first-child');
+    var bar2 = document.querySelector('.bar:nth-child(2)');
     if (move == 'sa'){
-      setTimeout(() =>{
-        const bar1 = document.querySelector('.bar:first-child');
-        const bar2 = document.querySelector('.bar:nth-child(2)');
-        const parent = bar1.parentNode;
-
-        bar1.style.transition = 'transform 2s ease-in-out'
-        bar2.style.transition = 'transform 2s ease-in-out'
+      setTimeout(() => {
+        bar1.style.transition = 'transform 0.5s ease-in-out';
+        bar2.style.transition = 'transform 0.5s ease-in-out';
         bar1.style.transform = 'translateY(100%)';
         bar2.style.transform = 'translateY(-100%)';
-        console.log(bar1.style.transition);
-        parent.insertBefore(bar2, bar1);
-        parent.insertBefore(bar1, bar2.nextSibling);
-        bar1.style.transition = '';
-        bar2.style.transition = '';
-        bar1.style.transform = 'none';
-        bar2.style.transform = 'none';
-      }, 2000);
-
+      }, 100);
+      setTimeout(() =>{
+      const parent = bar1.parentNode;
+      parent.insertBefore(bar2, bar1);
+      parent.insertBefore(bar1, bar2.nextSibling);
+      bar1.style.transition = '';
+      bar2.style.transition = '';
+      bar1.style.transform = 'none';
+      bar2.style.transform = 'none';
+    }, 600)
     }
     
   }
@@ -57,8 +55,6 @@ function firstDraw(relativeValues){
   else{
     barsContainer.innerHTML = '';
   }
-  console.log(barsContainer);
-
   var leftDiv = document.createElement('div');
   leftDiv.style.width = '50%';
   leftDiv.style.height = '100%';
