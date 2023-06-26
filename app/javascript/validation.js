@@ -39,15 +39,16 @@ document.addEventListener('turbo:load', function() {
                 if (errorMessageContainer) {
                     errorMessageContainer.remove();
                 }
-                barsAnimation(numbersArray);
+
                 const formData = new FormData(numberForm);
                 fetch(numberForm.action, {
                     method: 'POST',
                     body: formData
                 })
-                .then(response => {
-                if (response.ok) {
-                    console.log('Form submitted successfully!');
+                .then(response => response.json())
+                .then(data => {
+                if (data.success) {
+                    barsAnimation(numbersArray, data.data.result);
                 } 
                 else {
                     console.error('Error submitting the form!');

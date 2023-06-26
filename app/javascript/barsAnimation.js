@@ -1,33 +1,88 @@
-function barsAnimation(numbers){
-    var barsContainer = document.getElementById('barsContainer');
+function barsAnimation(numbers, moves){
     var relativeValues = [];
-
-    // Sort the original array in ascending order
+    
     var sortedValues = numbers.slice().sort(function(a, b) {
     return a - b;
     });
-
-    // Iterate over the sorted array
-    for (var i = 0; i < numbers.length; i++) {
-    // Find the relative position of each value in the original array
-    var relativePosition = sortedValues.indexOf(numbers[i]) + 1;
     
-    // Store the relative position in the new array
-    relativeValues.push(relativePosition);
+    for (var i = 0; i < numbers.length; i++) {
+      var relativePosition = sortedValues.indexOf(numbers[i]) + 1;
+      relativeValues.push(relativePosition);
     }
-    console.log(relativeValues);
-    relativeValues.forEach(function(value) {
-      var bar = document.createElement('div');
-      bar.className = 'bar';
-      bar.style.height = 20 + 'px';
-      var widthPercentage = (value / relativeValues.length) * 100;
-
-      // Set the bar's width
-      bar.style.width = widthPercentage + '%';
-      var hue = Math.floor(((relativeValues.length - value) / (relativeValues.length - 1)) * 120); // Ranges from 0 to 120 (red to green)
-      // Set the bar's background color using HSL format
-      bar.style.backgroundColor = 'hsl(' + hue + ', 100%, 50%)';
-      barsContainer.appendChild(bar);
-    });
+    firstDraw(relativeValues);
+    makeMoves(moves);
 }
 
+
+function makeMoves(moves){
+  //const bars = document.querySelectorAll('.bar');
+  for (let i = 0; i < moves.length; i++){
+    const move = moves[i];
+
+    if (move == 'sa'){
+      setTimeout(() =>{
+        const bar1 = document.querySelector('.bar:first-child');
+        const bar2 = document.querySelector('.bar:nth-child(2)');
+        const parent = bar1.parentNode;
+
+        bar1.style.transition = 'transform 2s ease-in-out'
+        bar2.style.transition = 'transform 2s ease-in-out'
+        bar1.style.transform = 'translateY(100%)';
+        bar2.style.transform = 'translateY(-100%)';
+        console.log(bar1.style.transition);
+        parent.insertBefore(bar2, bar1);
+        parent.insertBefore(bar1, bar2.nextSibling);
+        bar1.style.transition = '';
+        bar2.style.transition = '';
+        bar1.style.transform = 'none';
+        bar2.style.transform = 'none';
+      }, 2000);
+
+    }
+    
+  }
+
+
+}
+
+function firstDraw(relativeValues){
+  var barsContainer = document.querySelector('.bars-container');
+
+  if(!barsContainer){
+    barsContainer = document.createElement('div');
+    barsContainer.classList.add('bars-container');
+    barsContainer.style.height = '1000px';
+    document.body.appendChild(barsContainer)
+  }
+  else{
+    barsContainer.innerHTML = '';
+  }
+  console.log(barsContainer);
+
+  var leftDiv = document.createElement('div');
+  leftDiv.style.width = '50%';
+  leftDiv.style.height = '100%';
+
+  var rightDiv = document.createElement('div');
+  rightDiv.style.width = '50%';
+  rightDiv.style.height = '100%';
+
+  barsContainer.appendChild(leftDiv);
+  barsContainer.appendChild(rightDiv);
+  
+  relativeValues.forEach(function(value) {
+    var bar = document.createElement('div');
+    bar.className = 'bar';
+    var barHeightPercentage = (1 / relativeValues.length) * 100; // Calculate the height percentage based on the number of bars
+    bar.style.height = barHeightPercentage + '%';
+    var widthPercentage = (value / relativeValues.length) * 100;
+
+    // Set the bar's width
+    bar.style.width = widthPercentage + '%';
+    var hue = Math.floor(((relativeValues.length - value) / (relativeValues.length - 1)) * 120); // Ranges from 0 to 120 (red to green)
+    // Set the bar's background color using HSL format
+    bar.style.backgroundColor = 'hsl(' + hue + ', 100%, 50%)';
+    leftDiv.appendChild(bar);
+  });
+
+}

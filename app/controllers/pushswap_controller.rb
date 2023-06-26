@@ -23,7 +23,8 @@ class PushswapController < ApplicationController
             
             if response.is_a?(Net::HTTPSuccess)
                 data = JSON.parse(response.body)
-                puts data.inspect
+                render json: {success: true, data: data}
+                
                  # Print the response data to console
                 # Alternatively, you can log the response data for further inspection
                 #Rails.logger.info(data)
