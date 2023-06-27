@@ -1,6 +1,5 @@
 function barsAnimation(numbers, moves){
     var relativeValues = [];
-    
     var sortedValues = numbers.slice().sort(function(a, b) {
     return a - b;
     });
@@ -16,13 +15,14 @@ function barsAnimation(numbers, moves){
 
 async function makeMoves(moves){
   for (let i = 0; i < moves.length; i++){
-    const move = moves[i];
+    var move = moves[i];
     const transforTime = 0.5;
     const transitionString = 'transform ' + transforTime + 's ease-in-out'
     const promiseWait = transforTime * 1000;
 
     console.log(move);
-    if (move == 'sa' || move == 'sb'){
+    
+    if (move == 'sa'){
         moveSX(transitionString, promiseWait, move.slice(-1));
         await new Promise(resolve => setTimeout(resolve, promiseWait));
       }
@@ -58,7 +58,6 @@ async function movePX(transitionString, promiseWait, destination, origin){
   const barsUp = document.querySelectorAll('#stack-' + origin + ' :not(:first-child');
   const barsDown = document.querySelectorAll('#stack-' + destination);
 
-  console.log("move px")
   await new Promise(resolve => setTimeout(resolve, promiseWait));
   barToMove.style.transition = transitionString;
   barToMove.style.transform = 'translateX('+ toMove +'px)';
@@ -153,8 +152,6 @@ async function moveRXRX(transitionString, promiseWait, stack){
   
   const [lastBar, firstBar, translateYValue, transitionElements, parent] = assignVariables(stack);
 
-
-  console.log (transitionElements)
   await new Promise(resolve => setTimeout(resolve, promiseWait));
   lastBar.style.transition = transitionString
   firstBar.style.transition = transitionString
