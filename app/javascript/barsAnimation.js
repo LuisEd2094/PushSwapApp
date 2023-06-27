@@ -178,8 +178,6 @@ function createStacks(stackName){
   stack.setAttribute('id', stackName);
   
   return (stack);
-
-
 }
 
 
