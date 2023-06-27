@@ -17,22 +17,31 @@ function barsAnimation(numbers, moves){
 async function makeMoves(moves){
   for (let i = 0; i < moves.length; i++){
     const move = moves[i];
-    const transforTime = 0.1;
+    const transforTime = 0.5;
     const transitionString = 'transform ' + transforTime + 's ease-in-out'
     const promiseWait = transforTime * 1000;
 
     console.log(move);
-    if (move == 'sa'){
-        moveSA(transitionString, promiseWait, move.slice(-1));
+    if (move == 'sa' || move == 'sb'){
+        moveSX(transitionString, promiseWait, move.slice(-1));
         await new Promise(resolve => setTimeout(resolve, promiseWait));
       }
-    else if (move == 'rra'){
-      moveRRA (transitionString, promiseWait, move.slice(-1));
+    else if (move == 'rra' || move == 'rrb'){
+      moveRXRX (transitionString, promiseWait, move.slice(-1));
       await new Promise(resolve => setTimeout(resolve, promiseWait));
     }
-    else if (move == 'ra')
+    else if (move == 'ra' || move ==  'rb')
     {
-      moveRA(transitionString, promiseWait, move.slice(-1));
+      moveRX(transitionString, promiseWait, move.slice(-1));
+      await new Promise(resolve => setTimeout(resolve, promiseWait));
+    }
+    else if (move == 'pb' || move == 'pa')
+    {
+      if (move == 'pb')
+        origin = 'a'
+      else
+        origin = 'b'
+      movePX(transitionString,promiseWait, move.slice(-1), origin);
       await new Promise(resolve => setTimeout(resolve, promiseWait));
     }
     await new Promise(resolve => setTimeout(resolve, promiseWait ));
@@ -40,23 +49,60 @@ async function makeMoves(moves){
 }
 
 
+async function movePX(transitionString, promiseWait, destination, origin){
+  const barToMove = document.getElementById('stack-' + origin).firstChild;
+  const stackTarget = document.getElementById('stack-' + destination);
+  const targetPosition = stackTarget.getBoundingClientRect().right;
+  const currentPosition = barToMove.getBoundingClientRect().right;
+  const toMove = targetPosition - currentPosition;
+  const barsUp = document.querySelectorAll('#stack-' + origin + ' :not(:first-child');
+  const barsDown = document.querySelectorAll('#stack-' + destination);
 
-async function moveRA(transitionString, promiseWait, stack){
+  console.log("move px")
+  await new Promise(resolve => setTimeout(resolve, promiseWait));
+  barToMove.style.transition = transitionString;
+  barToMove.style.transform = 'translateX('+ toMove +'px)';
+
+  if (barsUp.length > 0){
+    applyTransform(transitionString, '-100', barsUp);
+  }
+  if (barsDown.length > 0){
+    applyTransform(transitionString, '100', barsDown);
+  } 
+  await new Promise(resolve => setTimeout(resolve, promiseWait));
+  stackTarget.insertBefore(barToMove, stackTarget.firstChild);
+
+  barToMove.style.transition = '';
+  barToMove.style.transform = '';
+  barsDown.forEach(element => {
+    element.style.transition = '';
+    element.style.transform = ''
+  });
+  barsUp.forEach(element => {
+    element.style.transition = '';
+    element.style.transform = ''
+  });
+}
+
+
+function applyTransform(transitionString, change, transitionElements){
+  transitionElements.forEach(element => {
+    element.style.transition = transitionString
+    element.style.transform = 'translateY(' + change + '%)'
+  });
+}
+
+async function moveRX(transitionString, promiseWait, stack){
   
   const [lastBar, firstBar, translateYValue, transitionElements, parent] = assignVariables(stack);
   
   await new Promise(resolve => setTimeout(resolve, promiseWait));
   lastBar.style.transition = transitionString
   firstBar.style.transition = transitionString
-
-  
   lastBar.style.transform = 'translateY(-100%)';
   firstBar.style.transform = 'translateY(' + translateYValue + '%)';
 
-  transitionElements.forEach(element => {
-    element.style.transition = transitionString
-    element.style.transform = 'translateY(-100%)'
-  });
+  applyTransform(transitionString, '-100', transitionElements);
   await new Promise(resolve => setTimeout(resolve, promiseWait));
 
   parent.insertBefore(firstBar, parent.lastChild.nextSibling);
@@ -75,7 +121,7 @@ async function moveRA(transitionString, promiseWait, stack){
 }
 
 
-async function moveSA(transitionString, promiseWait, stack){
+async function moveSX(transitionString, promiseWait, stack){
   var lastBar = document.getElementById('stack-' + stack).firstChild;
   var firstBar = document.getElementById('stack-' + stack).children.item(1);
   const parent = lastBar.parentNode;
@@ -103,7 +149,7 @@ async function moveSA(transitionString, promiseWait, stack){
 }
 
 
-async function moveRRA(transitionString, promiseWait, stack){
+async function moveRXRX(transitionString, promiseWait, stack){
   
   const [lastBar, firstBar, translateYValue, transitionElements, parent] = assignVariables(stack);
 
@@ -117,10 +163,11 @@ async function moveRRA(transitionString, promiseWait, stack){
   lastBar.style.transform = 'translateY(-' + translateYValue + '%)';
   firstBar.style.transform = 'translateY(100%)';
 
-  transitionElements.forEach(element => {
+  applyTransform(transitionString, '100', transitionElements);
+  /*transitionElements.forEach(element => {
     element.style.transition = transitionString
     element.style.transform = 'translateY(100%)'
-  });
+  });*/
   await new Promise(resolve => setTimeout(resolve, promiseWait));
   parent.insertBefore(lastBar, firstBar);
   parent.insertBefore(firstBar, lastBar.nextSibling);
@@ -137,6 +184,9 @@ async function moveRRA(transitionString, promiseWait, stack){
 }
 
 
+
+
+
 function firstDraw(relativeValues){
   var barsContainer = document.querySelector('.bars-container');
   var leftDiv = createStacks('stack-a')
@@ -145,7 +195,6 @@ function firstDraw(relativeValues){
   if(!barsContainer){
     barsContainer = document.createElement('div');
     barsContainer.classList.add('bars-container');
-    barsContainer.style.height = '1000px';
     document.body.appendChild(barsContainer)
   }
   else{
@@ -173,9 +222,8 @@ function firstDraw(relativeValues){
 
 function createStacks(stackName){
   var stack = document.createElement('div');
-  stack.style.width = '50%';
-  stack.style.height = '100%';
   stack.setAttribute('id', stackName);
+  stack.classList.add('stack')
   
   return (stack);
 }
