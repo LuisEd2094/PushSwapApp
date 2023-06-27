@@ -7,6 +7,7 @@ class PushswapController < ApplicationController
         if request.post? && (user_input.nil? || user_input.empty?)
             flash[:error] = 'No input provided.'
         elsif request.post?
+            Rails.logger.info('Button pressed!')
             values = user_input.split(/[\s,]+/).map(&:strip)
             json_data = { 'input' => values }.to_json
             begin

@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
         event.stopPropagation();
 
+
         const numbersInput = document.getElementById('numbers-input');
         const numbers = numbersInput.value.trim();
         const numbersArray = numbers.split(/[,\s]+/);
