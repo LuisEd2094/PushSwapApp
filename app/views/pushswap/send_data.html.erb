@@ -1,4 +1,4 @@
-<%= stylesheet_link_tag "pushswap", "data-turbo-track": "reload" %>
+<%= stylesheet_link_tag "pushswap"%>
 
 <div class="flash-messages">
   <% if flash[:error].present? %>
@@ -8,10 +8,10 @@
   <% end %>
 </div>
 
-<%= form_tag({action: 'send_data'}, method: 'post', remote: true,  id: 'number-form', data: { turbo: false }) do %>
+<%= form_tag({action: 'send_data'}, method: 'post', remote: true,  id: 'number-form') do %>
     <%= text_area_tag :input, '', id:'numbers-input' %>
     <%= submit_tag 'Get moves'%>
 <% end %>
 
-<%= javascript_include_tag 'validation','data-turbolinks-eval': 'false' %>
-<%= javascript_include_tag 'barsAnimation','data-turbolinks-eval': 'false' %>
+<%= javascript_include_tag 'validation' %>
+<%= javascript_include_tag 'barsAnimation' %>

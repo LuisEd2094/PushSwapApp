@@ -22,7 +22,7 @@ async function makeMoves(moves){
 
     console.log(move);
     
-    if (move == 'sa'){
+    if (move == 'sa' || move == 'sb'){
         moveSX(transitionString, promiseWait, move.slice(-1));
         await new Promise(resolve => setTimeout(resolve, promiseWait));
       }
@@ -121,29 +121,29 @@ async function moveRX(transitionString, promiseWait, stack){
 
 
 async function moveSX(transitionString, promiseWait, stack){
-  var lastBar = document.getElementById('stack-' + stack).firstChild;
-  var firstBar = document.getElementById('stack-' + stack).children.item(1);
-  const parent = lastBar.parentNode;
+  var firstBar = document.getElementById('stack-' + stack).firstChild;
+  var secondBar = document.getElementById('stack-' + stack).children.item(1);
+  const parent = firstBar.parentNode;
 
 
 
   await new Promise(resolve => setTimeout(resolve, promiseWait));
 
-  lastBar.style.transition = transitionString;
   firstBar.style.transition = transitionString;
-  lastBar.style.transform = 'translateY(100%)';
-  firstBar.style.transform = 'translateY(-100%)';
+  secondBar.style.transition = transitionString;
+  firstBar.style.transform = 'translateY(100%)';
+  secondBar.style.transform = 'translateY(-100%)';
 
 
   await new Promise(resolve => setTimeout(resolve, promiseWait));
 
 
-  parent.insertBefore(firstBar, lastBar);
-  parent.insertBefore(lastBar, firstBar.nextSibling);
-  lastBar.style.transition = '';
+  parent.insertBefore(secondBar, firstBar);
+  parent.insertBefore(firstBar, secondBar.nextSibling);
   firstBar.style.transition = '';
-  lastBar.style.transform = '';
+  secondBar.style.transition = '';
   firstBar.style.transform = '';
+  secondBar.style.transform = '';
 
 }
 

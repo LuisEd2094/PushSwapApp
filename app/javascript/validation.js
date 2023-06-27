@@ -1,4 +1,4 @@
-document.addEventListener('turbo:load', function() {
+//document.addEventListener('turbo:load', function() {
     const numberForm = document.getElementById('number-form');
 
     if (numberForm) {
@@ -60,4 +60,4 @@ document.addEventListener('turbo:load', function() {
             }
         });
     }
-})
+//})
