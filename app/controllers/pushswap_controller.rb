@@ -8,7 +8,7 @@ class PushswapController < ApplicationController
             flash[:error] = 'No input provided.'
         elsif request.post?
             values = user_input.split(/[\s,]+/).map(&:strip)
-            json_data = { 'input' => values.map(&:to_i) }.to_json
+            json_data = { 'input' => values }.to_json
             begin
                 uri = URI('http://127.0.0.1:5000/receive_numbers')
                 http = Net::HTTP.new(uri.host, uri.port)

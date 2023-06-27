@@ -1,4 +1,4 @@
-<%= stylesheet_link_tag "pushswap"%>
+
 
 <div class="flash-messages">
   <% if flash[:error].present? %>
@@ -8,7 +8,7 @@
   <% end %>
 </div>
 
-<%= form_tag({action: 'send_data'}, method: 'post', remote: true,  id: 'number-form') do %>
+<%= form_tag({action: 'send_data'}, method: 'post', remote: true, id: 'number-form')  do %>
     <%= text_area_tag :input, '', id:'numbers-input' %>
     <%= submit_tag 'Get moves'%>
 <% end %>
