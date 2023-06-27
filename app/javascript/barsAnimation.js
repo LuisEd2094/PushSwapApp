@@ -16,7 +16,7 @@ function barsAnimation(numbers, moves){
 async function makeMoves(moves){
   for (let i = 0; i < moves.length; i++){
     var move = moves[i];
-    const transforTime = 0.5;
+    const transforTime = 0.1;
     const transitionString = 'transform ' + transforTime + 's ease-in-out'
     const promiseWait = transforTime * 1000;
 
@@ -27,7 +27,7 @@ async function makeMoves(moves){
         await new Promise(resolve => setTimeout(resolve, promiseWait));
       }
     else if (move == 'rra' || move == 'rrb'){
-      moveRXRX (transitionString, promiseWait, move.slice(-1));
+      moveRRX (transitionString, promiseWait, move.slice(-1));
       await new Promise(resolve => setTimeout(resolve, promiseWait));
     }
     else if (move == 'ra' || move ==  'rb')
@@ -50,6 +50,7 @@ async function makeMoves(moves){
 
 
 async function movePX(transitionString, promiseWait, destination, origin){
+
   const barToMove = document.getElementById('stack-' + origin).firstChild;
   const stackTarget = document.getElementById('stack-' + destination);
   const targetPosition = stackTarget.getBoundingClientRect().right;
@@ -73,6 +74,7 @@ async function movePX(transitionString, promiseWait, destination, origin){
 
   barToMove.style.transition = '';
   barToMove.style.transform = '';
+
   barsDown.forEach(element => {
     element.style.transition = '';
     element.style.transform = ''
@@ -81,10 +83,13 @@ async function movePX(transitionString, promiseWait, destination, origin){
     element.style.transition = '';
     element.style.transform = ''
   });
+  await new Promise(resolve => setTimeout(resolve, promiseWait));
+
 }
 
 
 function applyTransform(transitionString, change, transitionElements){
+  console.log(transitionElements, change);
   transitionElements.forEach(element => {
     element.style.transition = transitionString
     element.style.transform = 'translateY(' + change + '%)'
@@ -148,7 +153,7 @@ async function moveSX(transitionString, promiseWait, stack){
 }
 
 
-async function moveRXRX(transitionString, promiseWait, stack){
+async function moveRRX(transitionString, promiseWait, stack){
   
   const [lastBar, firstBar, translateYValue, transitionElements, parent] = assignVariables(stack);
 
