@@ -139,8 +139,8 @@ async function moveRRA(transitionString, promiseWait, stack){
 
 function firstDraw(relativeValues){
   var barsContainer = document.querySelector('.bars-container');
-  var leftDiv = document.createElement('div');
-  var rightDiv = document.createElement('div');
+  var leftDiv = createStacks('stack-a')
+  var rightDiv = createStacks('stack-b')
 
   if(!barsContainer){
     barsContainer = document.createElement('div');
@@ -151,32 +151,36 @@ function firstDraw(relativeValues){
   else{
     barsContainer.innerHTML = '';
   }
-
-  leftDiv.style.width = '50%';
-  leftDiv.style.height = '100%';
-  leftDiv.setAttribute('id', 'stack-a');
-  rightDiv.style.width = '50%';
-  rightDiv.style.height = '100%';
-  rightDiv.setAttribute('id', 'stack-b');
-
   barsContainer.appendChild(leftDiv);
   barsContainer.appendChild(rightDiv);
 
 
   relativeValues.forEach(function(value) {
     var bar = document.createElement('div');
-    bar.className = 'bar';
     var barHeightPercentage = (1 / relativeValues.length) * 100; 
-    bar.style.height = barHeightPercentage + '%';
     var widthPercentage = (value / relativeValues.length) * 100;
-    bar.style.width = widthPercentage + '%';
     var hue = Math.floor(((relativeValues.length - value) / (relativeValues.length - 1)) * 120); 
+
+    bar.className = 'bar';
+    bar.style.height = barHeightPercentage + '%';
+    bar.style.width = widthPercentage + '%';
     bar.style.backgroundColor = 'hsl(' + hue + ', 100%, 50%)';
     leftDiv.appendChild(bar);
   });
 
 }
 
+
+function createStacks(stackName){
+  var stack = document.createElement('div');
+  stack.style.width = '50%';
+  stack.style.height = '100%';
+  stack.setAttribute('id', stackName);
+  
+  return (stack);
+
+
+}
 
 
 function assignVariables(stack) {
