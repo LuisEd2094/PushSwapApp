@@ -16,7 +16,7 @@ function barsAnimation(numbers, moves){
 async function makeMoves(moves){
   for (let i = 0; i < moves.length; i++){
     var move = moves[i];
-    const transforTime = 0.1;
+    const transforTime = 0.01;
     const transitionString = 'transform ' + transforTime + 's ease-in-out'
     const promiseWait = transforTime * 1000;
 
@@ -46,13 +46,13 @@ async function makeMoves(moves){
     }
     else if (move == 'rr'){
       moveRX(transitionString, promiseWait, 'a');
-      await new Promise(resolve => setTimeout(resolve, promiseWait));
+      //await new Promise(resolve => setTimeout(resolve, promiseWait));
       moveRX(transitionString, promiseWait, 'b');
       await new Promise(resolve => setTimeout(resolve, promiseWait));
     }
     else if (move == 'rrr'){
       moveRRX (transitionString, promiseWait, 'a');
-      await new Promise(resolve => setTimeout(resolve, promiseWait));
+     // await new Promise(resolve => setTimeout(resolve, promiseWait));
       moveRRX (transitionString, promiseWait, 'b');
       await new Promise(resolve => setTimeout(resolve, promiseWait));
       
