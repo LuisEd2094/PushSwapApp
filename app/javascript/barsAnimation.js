@@ -44,6 +44,19 @@ async function makeMoves(moves){
       movePX(transitionString,promiseWait, move.slice(-1), origin);
       await new Promise(resolve => setTimeout(resolve, promiseWait));
     }
+    else if (move == 'rr'){
+      moveRX(transitionString, promiseWait, 'a');
+      await new Promise(resolve => setTimeout(resolve, promiseWait));
+      moveRX(transitionString, promiseWait, 'b');
+      await new Promise(resolve => setTimeout(resolve, promiseWait));
+    }
+    else if (move == 'rrr'){
+      moveRRX (transitionString, promiseWait, 'a');
+      await new Promise(resolve => setTimeout(resolve, promiseWait));
+      moveRRX (transitionString, promiseWait, 'b');
+      await new Promise(resolve => setTimeout(resolve, promiseWait));
+      
+    }
     await new Promise(resolve => setTimeout(resolve, promiseWait ));
   }
 }
