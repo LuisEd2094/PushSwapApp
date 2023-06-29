@@ -20,8 +20,6 @@ async function makeMoves(moves){
     const transitionString = 'transform ' + transforTime + 's ease-in-out'
     const promiseWait = transforTime * 1000;
 
-    console.log(move);
-    
     if (move == 'sa' || move == 'sb'){
         moveSX(transitionString, promiseWait, move.slice(-1));
         await new Promise(resolve => setTimeout(resolve, promiseWait));
@@ -87,9 +85,6 @@ async function movePX(transitionString, promiseWait, destination, origin){
   const stackDown = document.getElementById('stack-' + destination);
   const barsDown = stackDown.querySelectorAll('div')
 
-  console.log('bars up',barsUp);
-  console.log('bars down',barsDown);
-
   await new Promise(resolve => setTimeout(resolve, promiseWait));
   barToMove.style.transition = transitionString;
   barToMove.style.transform = 'translateX('+ toMove +'px)';
@@ -120,7 +115,6 @@ function cleanElements(elements){
 
 }
 function applyTransform(transitionString, change, transitionElements){
-  console.log(transitionElements, change);
   transitionElements.forEach(element => {
     element.style.transition = transitionString
     element.style.transform = 'translateY(' + change + '%)'
