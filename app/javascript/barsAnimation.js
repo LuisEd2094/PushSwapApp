@@ -61,14 +61,28 @@ async function makeMoves(moves){
   }
 }
 
+function getDistanceToMove(stackTarget, barToMove, origin){
+  let targetPosition;
+  let currentPosition;
+
+  if (origin == 'a'){
+      targetPosition = stackTarget.getBoundingClientRect().right;
+      currentPosition = barToMove.getBoundingClientRect().right;
+  }
+  else{
+    targetPosition = stackTarget.getBoundingClientRect().left;
+    currentPosition = barToMove.getBoundingClientRect().left;
+  }
+  return (targetPosition - currentPosition);
+}
+
 
 async function movePX(transitionString, promiseWait, destination, origin){
 
   const barToMove = document.getElementById('stack-' + origin).firstChild;
   const stackTarget = document.getElementById('stack-' + destination);
-  const targetPosition = stackTarget.getBoundingClientRect().right;
-  const currentPosition = barToMove.getBoundingClientRect().right;
-  const toMove = targetPosition - currentPosition;
+  const toMove = getDistanceToMove(stackTarget, barToMove, origin);
+
   const barsUp = document.querySelectorAll('#stack-' + origin + ' :not(:first-child');
   const stackDown = document.getElementById('stack-' + destination);
   const barsDown = stackDown.querySelectorAll('div')
