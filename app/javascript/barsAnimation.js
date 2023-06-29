@@ -16,7 +16,7 @@ function barsAnimation(numbers, moves){
 async function makeMoves(moves){
   for (let i = 0; i < moves.length; i++){
     var move = moves[i];
-    const transforTime = 0.01;
+    const transforTime = 0.5;
     const transitionString = 'transform ' + transforTime + 's ease-in-out'
     const promiseWait = transforTime * 1000;
 
@@ -70,7 +70,11 @@ async function movePX(transitionString, promiseWait, destination, origin){
   const currentPosition = barToMove.getBoundingClientRect().right;
   const toMove = targetPosition - currentPosition;
   const barsUp = document.querySelectorAll('#stack-' + origin + ' :not(:first-child');
-  const barsDown = document.querySelectorAll('#stack-' + destination);
+  const stackDown = document.getElementById('stack-' + destination);
+  const barsDown = stackDown.querySelectorAll('div')
+
+  console.log('bars up',barsUp);
+  console.log('bars down',barsDown);
 
   await new Promise(resolve => setTimeout(resolve, promiseWait));
   barToMove.style.transition = transitionString;
@@ -88,19 +92,19 @@ async function movePX(transitionString, promiseWait, destination, origin){
   barToMove.style.transition = '';
   barToMove.style.transform = '';
 
-  barsDown.forEach(element => {
-    element.style.transition = '';
-    element.style.transform = ''
-  });
-  barsUp.forEach(element => {
-    element.style.transition = '';
-    element.style.transform = ''
-  });
+  cleanElements(barsDown);
+  cleanElements(barsUp);
   await new Promise(resolve => setTimeout(resolve, promiseWait));
 
 }
 
+function cleanElements(elements){
+  elements.forEach(element => {
+    element.style.transition = '';
+    element.style.transform = ''
+  });
 
+}
 function applyTransform(transitionString, change, transitionElements){
   console.log(transitionElements, change);
   transitionElements.forEach(element => {
