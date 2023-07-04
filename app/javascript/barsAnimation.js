@@ -16,7 +16,7 @@ function barsAnimation(numbers, moves){
 async function makeMoves(moves){
   for (let i = 0; i < moves.length; i++){
     var move = moves[i];
-    const transforTime = 0.5;
+    const transforTime = 0.01;
     const transitionString = 'transform ' + transforTime + 's ease-in-out'
     const promiseWait = transforTime * 1000;
 
